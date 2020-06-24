@@ -3,11 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!--Import Google Icon Font for materialize-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS  for materialize-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript for materialize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--CSS file-->
     <link rel="stylesheet" href="style.css">
+    
+    <title>Wavel</title>
 </head>
 <body>
-    
+      <!--Nav bar-->
+      <nav class="white">
+        <div class="nav-wrapper">
+          <a href="#" class="left brand-logo red-text">Wavel</a>   
+            <ul class="right">               
+                <li>    
+                   <div class="row">
+                      <div class="col s12" >
+                        <div class="row" id="topbarsearch">
+                          <div class="input-field col s6 s12 red-text">
+                            <i class="red-text material-icons prefix">search</i>
+                            <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete red-text" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>          
+                  </li>
+            </ul>
+        </div>
+      </nav>
+     <!--container and map image--> 
+    <div class="container">
+      <div class="row">
+        <div class="col push-s2 m6 push-m3">
+          <div class="card">
+            <div class="map-image card-image">
+              <img class= "image-map" src="http://placekitten.com/200/300">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--divider line between map and forecast cards-->
+        <div class="divider"></div>
+        <!--forecast cards-->
+        <div class="row">
+          <!--changes colum positions small/medium-large screens-->
+            <div class="col m2 s6 push-m1"> 
+              <div class="card small">
+                <div class="card-image">
+                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
+                </div>
+                <div class="card-content">
+                  <p>06/24/2020</p>
+                  <p>Temp: 85.35*F</p>
+                  <p>Humidity: 37%</p>
+                </div>
+                </div>
+            </div>         
+            <div class="col m2 s6 push-m1"> 
+              <div class="card small">
+                <div class="card-image">
+                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
+                </div>
+                <div class="card-content">
+                  <p>06/24/2020</p>
+                  <p>Temp: 85.35*F</p>
+                  <p>Humidity: 37%</p>
+                </div>
+                </div>
+            </div>         
+            <div class="col m2 s6 push-m1"> 
+              <div class="card small">
+                <div class="card-image">
+                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
+                </div>
+                <div class="card-content">
+                  <p>06/24/2020</p>
+                  <p>Temp: 85.35*F</p>
+                  <p>Humidity: 37%</p>
+                </div>
+                </div>
+            </div>         
+            <div class="col m2 s6 push-m1"> 
+              <div class="card small">
+                <div class="card-image">
+                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
+                </div>
+                <div class="card-content">
+                  <p>06/24/2020</p>
+                  <p>Temp: 85.35*F</p>
+                  <p>Humidity: 37%</p>
+                </div>
+                </div>
+            </div>         
+            <div class="col m2 s6 push-s3 push-m1">  
+              <div class="card small">
+                <div class="card-image">
+                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
+                </div>
+                <div class="card-content">
+                  <p>06/24/2020</p>
+                  <p>Temp: 85.35*F</p>
+                  <p>Humidity: 37%</p>
+                </div>
+                </div>
+            </div>                 
+          </div>    
+    </div>
+  </div>
+  <!--JQuery CDN and JS file-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="script.js"></script>
 </body>
