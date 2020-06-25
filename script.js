@@ -21,13 +21,13 @@
 $("#searchBtn").on("click", function () {
     event.preventDefault();
     $(".cardRow").empty();
-    var searchInput = $("#autocomplete-input").val().trim();
+    var searchInput = $("#textField").val().trim();
     if (searchInput === "" || searchInput === undefined) {
-        alert("Sorry, we couldn't find that. Please enter a valid city.")
-        $("#autocomplete-input").empty();
+        alert("Sorry, we couldn't find that. Please enter a valid city.");
+        $("#textField").val("");
     } else {
         openWeatherGet(searchInput);
-        $("#autocomplete-input").empty();
+        $("#textField").val("");
     }
 });
 
