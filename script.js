@@ -1,3 +1,22 @@
+
+ 
+   mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
+   var map = new mapboxgl.Map({
+   container: "map",
+   style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+   center: [-74.5, 40], // starting position [lng, lat]
+   zoom: 9 // starting zoom
+   });
+
+
+
+
+
+
+
+
+
+
 //grabbing user search criteria from search bar input-field
 $("#searchBtn").on("click", function () {
     event.preventDefault();
@@ -11,6 +30,21 @@ $("#searchBtn").on("click", function () {
         $("#autocomplete-input").empty();
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
