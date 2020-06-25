@@ -1,0 +1,24 @@
+body{
+    background-image: url(https://i.pinimg.com/originals/f9/fc/41/f9fc41708683303ef9831535bc9415ef.png);
+    background-size: cover;
+}
+#divide{
+    background-color: grey;
+}
+#firstRow{
+    background-image: url(https://tr.rbxcdn.com/ebf3de81acb24e6d514ebf4a8fe5fcf7/420/420/Decal/Png);
+    background-size: cover;
+}
+nav .brand-logo{
+    margin-left: 10px;
+    font-size: 3.5rem;
+}
+#homepage-logo{
+    margin-top: 250px;
+}
+#homepage-btn{
+    margin-bottom: 300px;
+}
+.forecast-image{
+    background-color: rgb(222, 242, 245);
+}
