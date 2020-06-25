@@ -1,6 +1,7 @@
 //grabbing user search criteria from search bar input-field
 $("#searchBtn").on("click", function () {
     event.preventDefault();
+    $(".cardRow").empty();
     var searchInput = $("#autocomplete-input").val().trim();
     if (searchInput === "" || searchInput === undefined) {
         alert("Sorry, we couldn't find that. Please enter a valid city.")
