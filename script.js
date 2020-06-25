@@ -60,11 +60,10 @@ function openWeatherGet(citySearch) {
                     humidity: response.daily[i].humidity,
                     //using toLowerCase on weatherObject for ease of image linking
                     description: weatherObject.toLowerCase(),
-                    card: $(".cardRow")
+                    card: $(".cardRow1")
                 }
 
                 // console.log(forecast.description);
-                //TODO: make weather icon link work
                 //still need working weather icon link, and alt is not displaying for some reason (syntax error?)
                 //html syntax of our forecast cards
                 var sourceString = `weather-icons/${forecast.description}.png`
@@ -83,7 +82,10 @@ function openWeatherGet(citySearch) {
                         </div>
                         </div>`
                 //appending forecast details onto cards for five day forecast
-                forecast.card.append(details);
+                function makeForecast() {
+                    forecast.card.append(details);
+                }
+                makeForecast();
             };
         });
     });
@@ -106,12 +108,34 @@ function zomatoGet(citySearch) {
             headers: { "user-key": key }
         }).then(function (response) {
             console.log(response);
-            var restaurant = {
-                name: response.best_rated_restaurant[0].restaurant.name,
-                menu: response.best_rated_restaurant[0].restaurant.menu_url,
-                cuisine: response.best_rated_restaurant[0].restaurant.cuisines,
-                thumbnail: response.best_rated_restaurant[0].restaurant.thumb
-            };
+
+            for (i = 0; i < 5; i++) {
+                var restaurant = {
+                    name: response.best_rated_restaurant[i].restaurant.name,
+                    menu: response.best_rated_restaurant[i].restaurant.menu_url,
+                    cuisine: response.best_rated_restaurant[i].restaurant.cuisines,
+                    thumbnail: response.best_rated_restaurant[i].restaurant.thumb,
+                    card: $(".cardRow2")
+                };
+                console.log(restaurant);
+
+                details = `<div class="col m2 s6 push-m1">
+                <div class="card small">
+                        <div class="card-image">
+                        <img src= ${restaurant.thumbnail}>
+                        </div>
+                        <div class="card-content">
+                        <p>${restaurant.name}</p>
+                        <p>${restaurant.cuisine}</p>
+                        <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
+                        </div>
+                        </div>`
+
+                function renderRestaurants() {
+                    restaurant.card.append(details);
+                }
+                renderRestaurants();
+            }
         });
     });
 }
