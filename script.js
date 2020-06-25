@@ -8,6 +8,7 @@ $("#searchBtn").on("click", function () {
         $("#textField").val("");
     } else {
         openWeatherGet(searchInput);
+        zomatoGet(searchInput);
         $("#textField").val("");
     }
 });
@@ -21,7 +22,7 @@ function openWeatherGet(citySearch) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response)
+        // console.log(response)
         var cityName = response.name;
         var country = response.sys.country;
         $(".card-title").text(`${cityName}, ${country}`)
@@ -33,7 +34,7 @@ function openWeatherGet(citySearch) {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            console.log(response);
+            // console.log(response);
 
             //gathering forecast data for five consecutive days
             for (i = 0; i < 5; i++) {
@@ -43,10 +44,12 @@ function openWeatherGet(citySearch) {
                 var unixDate = new Date(unixTimestamp * 1000);
                 //converting unix date to useable moment format
                 var convertedDate = moment(unixDate).format("MM/DD/YYYY");
+                //day of week for top of cards
+                var dayOfWeek = moment(unixDate).format("ddd");
                 //grabbing main weather description to narrow down icon variables
                 var weatherObject = response.daily[i].weather[0].main;
                 //if we want more detailed weather for a broader range of icons by id we can use:
-                console.log(weatherObject);
+                // console.log(weatherObject);
                 //var weatherObject = response.daily[i].weather[0].id
 
                 //stringifying our weatherObject so we can use it as a working variable
@@ -66,13 +69,14 @@ function openWeatherGet(citySearch) {
                 //html syntax of our forecast cards
                 var sourceString = `weather-icons/${forecast.description}.png`
                 // console.log(sourceString);
-                console.log(forecast);
+                // console.log(forecast);
                 var details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
                           <img src= ${sourceString}>
                         </div>
                         <div class="card-content">
+                        <p>${dayOfWeek}</p>
                           <p>${forecast.date}</p>
                           <p>Temp: ${forecast.temp}°F</p>
                           <p>Humidity: ${forecast.humidity}%</p>
@@ -80,6 +84,33 @@ function openWeatherGet(citySearch) {
                         </div>`
                 //appending forecast details onto cards for five day forecast
                 forecast.card.append(details);
+            };
+        });
+    });
+}
+function zomatoGet(citySearch) {
+    var key = "75a4bd45f80155eb1fab5d411cf931c6";
+    queryURL = "https://developers.zomato.com/api/v2.1/locations?query=" + citySearch + "&count=1";
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        headers: { "user-key": key }
+    }).then(function (response) {
+        // console.log(response)
+        var locationID = response.location_suggestions[0].entity_id
+        var locationType = response.location_suggestions[0].entity_type
+        queryURL = "https://developers.zomato.com/api/v2.1/location_details?entity_id=" + locationID + "&entity_type=" + locationType;
+        $.ajax({
+            url: queryURL,
+            method: "GET",
+            headers: { "user-key": key }
+        }).then(function (response) {
+            console.log(response);
+            var restaurant = {
+                name: response.best_rated_restaurant[0].restaurant.name,
+                menu: response.best_rated_restaurant[0].restaurant.menu_url,
+                cuisine: response.best_rated_restaurant[0].restaurant.cuisines,
+                thumbnail: response.best_rated_restaurant[0].restaurant.thumb
             };
         });
     });
