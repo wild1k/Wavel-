@@ -11,6 +11,9 @@
 
   <!-- Compiled and minified JavaScript for materialize -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!--mapbox script and css-->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
   <!--CSS file-->
   <link rel="stylesheet" href="style.css">
 
@@ -43,8 +46,17 @@
       <div class="col m6 push-m3">
         <div class="card">
           <div class="map-image card-image">
-            <img class="image-map"
-              src="https://previews.123rf.com/images/pbardocz/pbardocz1905/pbardocz190501177/122656917-vector-city-map-of-tokyo-with-well-organized-separated-layers-.jpg">
+            <div id='map' style='width: 400px; height: 300px;'></div>
+            <Script>
+              mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
+              var map = new mapboxgl.Map({
+              container: "map",
+              style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+              center: [-74.5, 40], // starting position [lng, lat]
+              zoom: 9 // starting zoom
+              });
+          </Script>
+           
               <span class="card-title">Card Title</span>
           </div>
         </div>
