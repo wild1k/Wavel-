@@ -1,11 +1,15 @@
 //grabbing user search criteria from search bar input-field
 $("#searchBtn").on("click", function () {
     event.preventDefault();
-    var searchInput = $("#autocomplete-input").val();
-    $("#autocomplete-input").val("");
-    console.log(searchInput);
-    console.log("click");
-    openWeatherGet(searchInput);
+    $(".cardRow").empty();
+    var searchInput = $("#autocomplete-input").val().trim();
+    if (searchInput === "" || searchInput === undefined) {
+        alert("Sorry, we couldn't find that. Please enter a valid city.")
+        $("#autocomplete-input").empty();
+    } else {
+        openWeatherGet(searchInput);
+        $("#autocomplete-input").empty();
+    }
 });
 
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
@@ -20,7 +24,9 @@ function openWeatherGet(citySearch) {
         console.log(response)
         var cityName = response.name;
         var country = response.sys.country;
-            $(".card-title").text(`${cityName}, ${country}`)
+        $(".card-title").text(`${cityName}, ${country}`)
+        //TODO: later control for 404 return from queryURL.status (undefined)
+        // console.log(queryURL.status);
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
         queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + `${response.coord.lat}` + "&lon=" + `${response.coord.lon}` + "&exclude=minutely,hourly&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
         $.ajax({
@@ -28,7 +34,7 @@ function openWeatherGet(citySearch) {
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            
+
             //gathering forecast data for five consecutive days
             for (i = 0; i < 5; i++) {
                 //timestamp in unix
@@ -44,7 +50,7 @@ function openWeatherGet(citySearch) {
                 //var weatherObject = response.daily[i].weather[0].id
 
                 //stringifying our weatherObject so we can use it as a working variable
-                
+
                 var forecast = {
                     date: convertedDate,
                     temp: response.daily[i].temp.day,
@@ -53,7 +59,7 @@ function openWeatherGet(citySearch) {
                     description: weatherObject.toLowerCase(),
                     card: $(".cardRow")
                 }
-               
+
                 // console.log(forecast.description);
                 //TODO: make weather icon link work
                 //still need working weather icon link, and alt is not displaying for some reason (syntax error?)
