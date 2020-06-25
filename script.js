@@ -18,6 +18,9 @@ function openWeatherGet(citySearch) {
         method: "GET"
     }).then(function (response) {
         console.log(response)
+        var cityName = response.name;
+        var country = response.sys.country;
+            $(".card-title").text(`${cityName}, ${country}`)
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
         queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + `${response.coord.lat}` + "&lon=" + `${response.coord.lon}` + "&exclude=minutely,hourly&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
         $.ajax({
@@ -25,6 +28,7 @@ function openWeatherGet(citySearch) {
             method: "GET"
         }).then(function (response) {
             console.log(response);
+            
             //gathering forecast data for five consecutive days
             for (i = 0; i < 5; i++) {
                 //timestamp in unix
@@ -74,14 +78,3 @@ function openWeatherGet(citySearch) {
         });
     });
 }
-
-// var divCol = $(`<div class="col m2 s6 push-m1"></div>`)
-// var divCard = $(`<div class="card small"></div>`)
-// var divCardImage =$(`<div class="card-image"></div>`)
-// var imgSrc = $(`<img src="weather-icons/${forecast.description}.png">`)
-//         <div class="card-content">
-//            <p>${forecast.date}</p>
-//            <p>Temp: ${forecast.temp}°F</p>
-//            <p>Humidity: ${forecast.humidity}%</p>
-
-//          `)
