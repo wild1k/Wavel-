@@ -24,6 +24,8 @@ function openWeatherGet(citySearch) {
         var cityName = response.name;
         var country = response.sys.country;
         $(".card-title").text(`${cityName}, ${country}`)
+        //TODO: later control for 404 return from queryURL.status (undefined)
+        // console.log(queryURL.status);
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
         queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + `${response.coord.lat}` + "&lon=" + `${response.coord.lon}` + "&exclude=minutely,hourly&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
         $.ajax({
