@@ -1,119 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Import Google Icon Font for materialize-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS  for materialize-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-    <!-- Compiled and minified JavaScript for materialize -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!--CSS file-->
-    <link rel="stylesheet" href="style.css">
-    
-    <title>Wavel</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--Import Google Icon Font for materialize-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS  for materialize-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript for materialize -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!--CSS file-->
+  <link rel="stylesheet" href="style.css">
+
+  <title>Wavel</title>
 </head>
+
 <body>
-      <!--Nav bar-->
-      <nav class="N/A transparent nav-wrapper">
-          <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>   
-            <ul class="right">               
-                <li>    
-                   <div class="row">
-                      <div class="col s12" >
-                        <div class="row" id="topbarsearch">
-                          <div class="input-field col s6 s12 red-text">
-                            <input type="text" placeholder="City Name Here" id="autocomplete-input" class="autocomplete black-text" >
-                            </div>
-                          </div>
-                        </div>
-                      </div>          
-                  </li>                     
-                <li><a class="button deep-purple accent-1">Search</a></li>
-            </ul>
-      </nav>
-      <br>
-     <!--container and map image--> 
-    <div class="container">
-      <div class="row" id ="firstRow">
-        <div class="col m6 push-m3">
-          <div class="card">
-            <div class="map-image card-image">
-              <img class= "image-map" src="https://previews.123rf.com/images/pbardocz/pbardocz1905/pbardocz190501177/122656917-vector-city-map-of-tokyo-with-well-organized-separated-layers-.jpg">
+  <!--Nav bar-->
+  <nav class="N/A transparent nav-wrapper">
+    <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
+    <ul class="right">
+      <li>
+        <div class="row">
+          <div class="col s12">
+            <div class="row" id="topbarsearch">
+              <div class="input-field col s6 s12 red-text">
+                <input type="text" placeholder="City Name Here" id="autocomplete-input" class="autocomplete black-text">
+              </div>
             </div>
           </div>
         </div>
-      </div> 
-        <!--forecast cards-->
-        <div class="row" id = firstRow>
-          <!--changes colum positions small/medium-large screens-->
-            <div class="col m2 s6 push-m1"> 
-              <div class="card small forecast-image">
-                <div class="card-image">
-                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
-                </div>
-                <div class="card-content">
-                  <p>06/24/2020</p>
-                  <p>Temp: 85.35*F</p>
-                  <p>Humidity: 37%</p>
-                </div>
-                </div>
-            </div>         
-            <div class="col m2 s6 push-m1"> 
-              <div class="card small forecast-image">
-                <div class="card-image">
-                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
-                </div>
-                <div class="card-content">
-                  <p>06/24/2020</p>
-                  <p>Temp: 85.35*F</p>
-                  <p>Humidity: 37%</p>
-                </div>
-                </div>
-            </div>         
-            <div class="col m2 s6 push-m1"> 
-              <div class="card small forecast-image">
-                <div class="card-image">
-                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
-                </div>
-                <div class="card-content">
-                  <p>06/24/2020</p>
-                  <p>Temp: 85.35*F</p>
-                  <p>Humidity: 37%</p>
-                </div>
-                </div>
-            </div>         
-            <div class="col m2 s6 push-m1"> 
-              <div class="card small forecast-image">
-                <div class="card-image">
-                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
-                </div>
-                <div class="card-content">
-                  <p>06/24/2020</p>
-                  <p>Temp: 85.35*F</p>
-                  <p>Humidity: 37%</p>
-                </div>
-                </div>
-            </div>         
-            <div class="col m2 s6 push-s3 push-m1">  
-              <div class="card small forecast-image">
-                <div class="card-image">
-                  <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-apps/128/weather-icon.png">
-                </div>
-                <div class="card-content">
-                  <p>06/24/2020</p>
-                  <p>Temp: 85.35*F</p>
-                  <p>Humidity: 37%</p>
-                </div>
-                </div>
-            </div>                 
-          </div>    
+      </li>
+      <li><a class="button deep-purple accent-1" id="searchBtn">Search</a></li>
+    </ul>
+  </nav>
+  <br>
+  <!--container and map image-->
+  <div class="container">
+    <div class="row" id="firstRow">
+      <div class="col m6 push-m3">
+        <div class="card">
+          <div class="map-image card-image">
+            <img class="image-map"
+              src="https://previews.123rf.com/images/pbardocz/pbardocz1905/pbardocz190501177/122656917-vector-city-map-of-tokyo-with-well-organized-separated-layers-.jpg">
+              <span class="card-title">Card Title</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--forecast cards-->
+    <div class="row cardRow" id=firstRow>
+      <!--changes colum positions small/medium-large screens-->
+
     </div>
   </div>
+  </div>
   <!--JQuery CDN and JS file-->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
