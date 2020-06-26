@@ -21,6 +21,13 @@
 </head>
 
 <body>
+  <!--added for functionality for map-->
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+  <link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
   <!--Nav bar-->
   <nav class="N/A transparent nav-wrapper">
     <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
@@ -30,7 +37,7 @@
           <div class="col s12">
             <div class="row" id="topbarsearch">
               <div class="input-field col s6 s12 red-text">
-                <input type="text" placeholder="City Name Here" id="autocomplete-input" class="autocomplete black-text">
+                <input type="text" placeholder="City Name Here" id="textField" id="autocomplete-input" class="autocomplete black-text">
               </div>
             </div>
           </div>
@@ -43,27 +50,22 @@
   <!--container and map image-->
   <div class="container">
     <div class="row" id="firstRow">
-      <div class="col m6 push-m3">
+      <div class="col m6 push-m3 s12">
         <div class="card">
           <div class="map-image card-image">
-            <div id='map' style='width: 400px; height: 300px;'></div>
-            <Script>
-              mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
-              var map = new mapboxgl.Map({
-              container: "map",
-              style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-              center: [-74.5, 40], // starting position [lng, lat]
-              zoom: 9 // starting zoom
-              });
-          </Script>
-           
+            <div id='map' style='width: 100%; height: 300px;'></div>
+         
               <span class="card-title">Card Title</span>
           </div>
         </div>
       </div>
     </div>
     <!--forecast cards-->
-    <div class="row cardRow" id=firstRow>
+    <div class="row cardRow" id="cardRow1" id=firstRow>
+      <!--changes colum positions small/medium-large screens-->
+
+    </div>
+    <div class="row cardRow" id="cardRow2" id=firstRow>
       <!--changes colum positions small/medium-large screens-->
 
     </div>
