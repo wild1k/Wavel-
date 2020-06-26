@@ -4,18 +4,18 @@ $(".searchBtn").on("click", function () {
     console.log("You Clicked a button")
     $(".cardRow").empty();
     var searchInput = $(".textField").val().trim();
-    if (searchInput === "" || searchInput === undefined) {
-        alert("Sorry, we couldn't find that. Please enter a valid city.");
-        $(".textField").val("");
-    } else {
-        $(".subBody").empty()
-        createNav()
-        $(".subBody").append($("<div class = container>"))
-        openWeatherGet(searchInput);
-        zomatoGet(searchInput);
-        $(".textField").val("");
+    // if (searchInput === "" || openWeatherGet(searchInput) === false) {
+    //     alert("Sorry, we couldn't find that. Please enter a valid city.");
+    //     $(".textField").val("");
+    // } else {
 
-    }
+    // $(".subBody").empty()
+    // createNav()
+    // $(".subBody").append($("<div class = container>"))
+    openWeatherGet(searchInput);
+    // zomatoGet(searchInput);
+    // $(".textField").val("");
+
 });
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
@@ -25,6 +25,11 @@ function openWeatherGet(citySearch) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+        $(".subBody").empty()
+        createNav()
+        $(".subBody").append($("<div class = container>"))
+        zomatoGet(citySearch);
+        $(".textField").val("");
         var cityName = response.name;
         //calls the coord for the location put in the search bar
         var mapCord = response['coord']
@@ -42,13 +47,13 @@ function openWeatherGet(citySearch) {
                         </div>`
         $(".container").prepend(mapCreate)
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-77.04, 38.907],
-                zoom: 11.15,
-                attributionControl: false
-            });
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-77.04, 38.907],
+            zoom: 11.15,
+            attributionControl: false
+        });
         map.addControl(new mapboxgl.AttributionControl(), 'top-left');
         map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });                                     // Makes the map fly to the destination 
         $(".card-title").text(`${cityName}, ${country}`)                                                        // Makes the title the name of the country and city
@@ -58,7 +63,7 @@ function openWeatherGet(citySearch) {
         queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + `${response.coord.lat}` + "&lon=" + `${response.coord.lon}` + "&exclude=minutely,hourly&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
         $.ajax({
             url: queryURL,
-            method: "GET"
+            method: "GET",
         }).then(function (response) {
             $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
             for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
@@ -75,7 +80,7 @@ function openWeatherGet(citySearch) {
                     description: weatherObject.toLowerCase(),
                     card: $("#cardRow1")
                 }
-                
+
                 var sourceString = `weather-icons/${forecast.description}.png`
                 //html syntax of our forecast cards
                 var details = `<div class="col m2 s6 push-m1">
@@ -89,10 +94,15 @@ function openWeatherGet(citySearch) {
                                             <p>Temp: ${forecast.temp}°F</p>
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
-                                    </div>`                                                                      
+                                    </div>`
                 forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
             };
         });
+       
+       
+    }).catch(function (error) {
+        alert("Sorry, we couldn't find that. Please enter a valid city.");
+        $(".textField").val("");
     });
 }
 function zomatoGet(citySearch) {
@@ -142,7 +152,7 @@ function zomatoGet(citySearch) {
         });
     });
 }
-function createNav(){                                                                                           // Creates the navbar
+function createNav() {                                                                                           // Creates the navbar
     var navBar = `<nav class="N/A transparent nav-wrapper">
     <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
     <ul class="right">
@@ -170,7 +180,7 @@ function createNav(){                                                           
             alert("Sorry, we couldn't find that. Please enter a valid city.");
             $(".textField").val("");
             console.log("hello")
-        } 
+        }
         else {
             $(".cardRow").empty();
             $(".container").empty()
