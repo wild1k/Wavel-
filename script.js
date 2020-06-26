@@ -219,7 +219,7 @@ function createNav() {                                                          
           </div>
         </div>
       </li>
-      <li><a class="button deep-purple accent-1 searchBtn" >Search</a></li>
+      <li><a class="button waves-effect deep-purple accent-1 searchBtn" >Search</a></li>
     </ul>
   </nav>
   <br>`

@@ -27,6 +27,9 @@ nav .brand-logo{
 .forecast-image{
     background-color: rgb(222, 242, 245);
 }
+.card .card-image img{
+    height: 160px;
+}
 .test{
     color: black !important;
 }
