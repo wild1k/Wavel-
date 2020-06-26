@@ -7,24 +7,28 @@
 
 
 //grabbing user search criteria from search bar input-field
-$(".searchBtn").on("click", function () {
+$(document).on("click", ".searchBtn", function () {
     event.preventDefault();
-    console.log("You Clicked a button")
     $(".cardRow").empty();
     var searchInput = $(".textField").val().trim();
-    if (searchInput === "" || searchInput === undefined) {
-        alert("Sorry, we couldn't find that. Please enter a valid city.");
-        $(".textField").val("");
-    } else {
-        $(".subBody").empty()
-        createNav()
-        $(".subBody").append($("<div class = container>"))
-        openWeatherGet(searchInput);
-        zomatoGet(searchInput);
-        $(".textField").val("");
-
-    }
+    openWeatherGet(searchInput);
 });
+//tabs function
+function createTab(){
+     var tabBar = `<div class="row tabRow">
+     <div class="col s12">
+       <ul class="tabs cyan lighten-5">
+         <li class="tab col s3"><a class="active black-text" href="#cardRow1">Weather</a></li>
+         <li class="tab col s3"><a class="black-text" href="#cardRow2">Restaurants</a></li>
+       </ul>
+     </div>
+   
+   </div>`
+   $(`.container`).append(tabBar)
+   console.log("hello");
+   }
+
+
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
@@ -33,6 +37,11 @@ function openWeatherGet(citySearch) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+        $(".subBody").empty()
+        createNav()
+        $(".subBody").append($("<div class = container>"))
+        zomatoGet(citySearch);
+        $(".textField").val("");
         var cityName = response.name;
         //calls the coord for the location put in the search bar
         var mapCord = response['coord']
@@ -75,9 +84,10 @@ function openWeatherGet(citySearch) {
         queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + `${response.coord.lat}` + "&lon=" + `${response.coord.lon}` + "&exclude=minutely,hourly&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
         $.ajax({
             url: queryURL,
-            method: "GET"
+            method: "GET",
         }).then(function (response) {
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
+            createTab();
+            $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
             for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
                 var unixTimestamp = response.daily[i].dt                                                        // timestamp in unix
                 var unixDate = new Date(unixTimestamp * 1000);                                                  // getting date in unix
@@ -92,9 +102,24 @@ function openWeatherGet(citySearch) {
                     description: weatherObject.toLowerCase(),
                     card: $("#cardRow1")
                 }
-                
+
                 var sourceString = `weather-icons/${forecast.description}.png`
                 //html syntax of our forecast cards
+                if(i===4){
+                    var details = `<div class="col m2 s6 push-m1 push-s3">
+                                    <div class="card small">
+                                        <div class="card-image">
+                                            <img src= ${sourceString}>
+                                        </div>
+                                        <div class="card-content">
+                                            <p>${dayOfWeek}</p>
+                                            <p>${forecast.date}</p>
+                                            <p>Temp: ${forecast.temp}°F</p>
+                                            <p>Humidity: ${forecast.humidity}%</p>
+                                        </div>
+                                    </div>`
+                forecast.card.append(details);                  
+                }else{
                 var details = `<div class="col m2 s6 push-m1">
                                     <div class="card small">
                                         <div class="card-image">
@@ -106,10 +131,14 @@ function openWeatherGet(citySearch) {
                                             <p>Temp: ${forecast.temp}°F</p>
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
-                                    </div>`                                                                      
-                forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
+                                    </div>`
+                forecast.card.append(details);
+                }                                                                 //appending forecast details onto cards for five day forecast 
             };
         });
+    }).catch(function (error) {
+        alert("Sorry, we couldn't find that. Please enter a valid city.");
+        $(".textField").val("");
     });
 }
 function zomatoGet(citySearch) {
@@ -120,7 +149,6 @@ function zomatoGet(citySearch) {
         method: "GET",
         headers: { "user-key": key }
     }).then(function (response) {
-        // console.log(response)
         var locationID = response.location_suggestions[0].entity_id
         var locationType = response.location_suggestions[0].entity_type
         queryURL = "https://developers.zomato.com/api/v2.1/location_details?entity_id=" + locationID + "&entity_type=" + locationType;
@@ -129,7 +157,7 @@ function zomatoGet(citySearch) {
             method: "GET",
             headers: { "user-key": key }
         }).then(function (response) {
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
+            $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
             for (i = 0; i < 5; i++) {
                 var restaurant = {
                     name: response.best_rated_restaurant[i].restaurant.name,
@@ -138,7 +166,22 @@ function zomatoGet(citySearch) {
                     thumbnail: response.best_rated_restaurant[i].restaurant.thumb,
                     card: $("#cardRow2")
                 };
-                console.log(restaurant);
+                console.log(restaurant.cuisine);
+                if(i===4){
+                    details = `<div class="col m2 s6 push-m1 push-s3">
+                <div class="card small">
+                        <div class="card-image">
+                        <img src= ${restaurant.thumbnail}>
+                        </div>
+                        <div class="card-content">
+                        <p>${restaurant.name}</p>
+                        <p>${restaurant.cuisine}</p>
+                        <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
+                        </div>
+                        </div>`
+               
+                    restaurant.card.append(details);
+                }else{
                 details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
@@ -150,16 +193,18 @@ function zomatoGet(citySearch) {
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
-
-                function renderRestaurants() {
+               
                     restaurant.card.append(details);
                 }
-                renderRestaurants();
+
+            
             }
+            
+            $('ul.tabs').tabs();
         });
     });
 }
-function createNav(){                                                                                           // Creates the navbar
+function createNav() {                                                                                           // Creates the navbar
     var navBar = `<nav class="N/A transparent nav-wrapper">
     <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
     <ul class="right">
@@ -180,20 +225,4 @@ function createNav(){                                                           
   </nav>
   <br>`
     $('.subBody').prepend(navBar)                                                                               // Prepends the Navbar to the subBody class
-    $(".searchBtn").on("click", function () {                                                                   // Defines the on click function when the navbar is dynamically created
-        event.preventDefault();
-        var searchInput = $(".textField").val().trim();
-        if (searchInput === "" || searchInput === undefined) {
-            alert("Sorry, we couldn't find that. Please enter a valid city.");
-            $(".textField").val("");
-            console.log("hello")
-        } 
-        else {
-            $(".cardRow").empty();
-            $(".container").empty()
-            openWeatherGet(searchInput);
-            zomatoGet(searchInput);
-            $(".textField").val("");
-        }
-    });
 }
