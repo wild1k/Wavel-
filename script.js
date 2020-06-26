@@ -5,6 +5,13 @@ $(document).on("click", ".searchBtn", function () {
     var searchInput = $(".textField").val().trim();
     openWeatherGet(searchInput);
 });
+//setting fallback image for restaurant cards
+$(".restaurantImg".on("error", function() {
+    $(this).attr("src", "/images/restaurant-placeholder.png");
+}));
+$(".weatherImg".on("error", function() {
+    $(this).attr("src", "/images/weather-placeholder.png");
+}));
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
@@ -67,12 +74,12 @@ function openWeatherGet(citySearch) {
                     card: $("#cardRow1")
                 }
 
-                var sourceString = `weather-icons/${forecast.description}.png`
+                var sourceString = `images/${forecast.description}.png`
                 //html syntax of our forecast cards
                 var details = `<div class="col m2 s6 push-m1">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img src= ${sourceString}>
+                                            <img class="weatherImg" src= ${sourceString}>
                                         </div>
                                         <div class="card-content">
                                             <p>${dayOfWeek}</p>
@@ -118,7 +125,7 @@ function zomatoGet(citySearch) {
                 details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
-                        <img src= ${restaurant.thumbnail}>
+                        <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail}>
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
@@ -126,7 +133,6 @@ function zomatoGet(citySearch) {
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
-
                 function renderRestaurants() {
                     restaurant.card.append(details);
                 }
