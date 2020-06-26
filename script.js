@@ -1,21 +1,9 @@
 //grabbing user search criteria from search bar input-field
-$(".searchBtn").on("click", function () {
+$(document).on("click", ".searchBtn", function () {
     event.preventDefault();
-    console.log("You Clicked a button")
     $(".cardRow").empty();
     var searchInput = $(".textField").val().trim();
-    // if (searchInput === "" || openWeatherGet(searchInput) === false) {
-    //     alert("Sorry, we couldn't find that. Please enter a valid city.");
-    //     $(".textField").val("");
-    // } else {
-
-    // $(".subBody").empty()
-    // createNav()
-    // $(".subBody").append($("<div class = container>"))
     openWeatherGet(searchInput);
-    // zomatoGet(searchInput);
-    // $(".textField").val("");
-
 });
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
@@ -57,8 +45,6 @@ function openWeatherGet(citySearch) {
         map.addControl(new mapboxgl.AttributionControl(), 'top-left');
         map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });                                     // Makes the map fly to the destination 
         $(".card-title").text(`${cityName}, ${country}`)                                                        // Makes the title the name of the country and city
-        //TODO: later control for 404 return from queryURL.status (undefined)
-        // console.log(queryURL.status);
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
         queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + `${response.coord.lat}` + "&lon=" + `${response.coord.lon}` + "&exclude=minutely,hourly&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
         $.ajax({
@@ -98,8 +84,6 @@ function openWeatherGet(citySearch) {
                 forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
             };
         });
-       
-       
     }).catch(function (error) {
         alert("Sorry, we couldn't find that. Please enter a valid city.");
         $(".textField").val("");
@@ -113,7 +97,6 @@ function zomatoGet(citySearch) {
         method: "GET",
         headers: { "user-key": key }
     }).then(function (response) {
-        // console.log(response)
         var locationID = response.location_suggestions[0].entity_id
         var locationType = response.location_suggestions[0].entity_type
         queryURL = "https://developers.zomato.com/api/v2.1/location_details?entity_id=" + locationID + "&entity_type=" + locationType;
@@ -131,7 +114,7 @@ function zomatoGet(citySearch) {
                     thumbnail: response.best_rated_restaurant[i].restaurant.thumb,
                     card: $("#cardRow2")
                 };
-                console.log(restaurant);
+                console.log(restaurant.cuisine);
                 details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
@@ -173,20 +156,4 @@ function createNav() {                                                          
   </nav>
   <br>`
     $('.subBody').prepend(navBar)                                                                               // Prepends the Navbar to the subBody class
-    $(".searchBtn").on("click", function () {                                                                   // Defines the on click function when the navbar is dynamically created
-        event.preventDefault();
-        var searchInput = $(".textField").val().trim();
-        if (searchInput === "" || searchInput === undefined) {
-            alert("Sorry, we couldn't find that. Please enter a valid city.");
-            $(".textField").val("");
-            console.log("hello")
-        }
-        else {
-            $(".cardRow").empty();
-            $(".container").empty()
-            openWeatherGet(searchInput);
-            zomatoGet(searchInput);
-            $(".textField").val("");
-        }
-    });
 }
