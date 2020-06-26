@@ -1,3 +1,11 @@
+
+
+//secret key for making multiple pindrops
+// sk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYndwM3A0OTBpNHozMXAzMG8zbTY4YjcifQ.Ery_IrBQ7OHK8e07QeV7pw
+
+
+
+
 //grabbing user search criteria from search bar input-field
 $(".searchBtn").on("click", function () {
     event.preventDefault();
@@ -43,15 +51,24 @@ function openWeatherGet(citySearch) {
         $(".container").prepend(mapCreate)
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
             var map = new mapboxgl.Map({
+                
                 container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
+                style: 'mapbox://styles/wild1k/ckbwlrt6r18mq1ho6214s9ip6',
                 center: [-77.04, 38.907],
                 zoom: 11.15,
                 attributionControl: false
-            });
+      });     
+            
+      //adding markers to city search
+            var marker = new mapboxgl.Marker()
+            .setLngLat([mapCord.lon, mapCord.lat])
+           .addTo(map); // add the marker to the map
+ 
+ // Makes the map fly to the destination 
+// Makes the title the name of the country and city
         map.addControl(new mapboxgl.AttributionControl(), 'top-left');
-        map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });                                     // Makes the map fly to the destination 
-        $(".card-title").text(`${cityName}, ${country}`)                                                        // Makes the title the name of the country and city
+        map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });
+        $(".card-title").text(`${cityName}, ${country}`)
         //TODO: later control for 404 return from queryURL.status (undefined)
         // console.log(queryURL.status);
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
