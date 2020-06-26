@@ -28,15 +28,15 @@ function openWeatherGet(citySearch) {
         var cityName = response.name;
         //calls the coord for the location put in the search bar
         var mapCord = response['coord']
-        //makes the map fly to the destination 
         var country = response.sys.country;
         var mapCreate = ` <div class="row firstRow">
                             <div class="col m6 push-m3 s12">
                                 <div class="card">
                                     <div class="map-image card-image">
                                         <div id='map' style='width: 100%; height: 300px;'></div>
-                                        <span class="card-title">Card Title</span>
+                                        <span class="card-title test">Card Title</span>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>`
@@ -50,8 +50,8 @@ function openWeatherGet(citySearch) {
                 attributionControl: false
             });
         map.addControl(new mapboxgl.AttributionControl(), 'top-left');
-        map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });
-        $(".card-title").text(`${cityName}, ${country}`)
+        map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });                                     // Makes the map fly to the destination 
+        $(".card-title").text(`${cityName}, ${country}`)                                                        // Makes the title the name of the country and city
         //TODO: later control for 404 return from queryURL.status (undefined)
         // console.log(queryURL.status);
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
@@ -60,31 +60,24 @@ function openWeatherGet(citySearch) {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            //gathering forecast data for five consecutive days
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')
-            for (i = 0; i < 5; i++) {
-                //timestamp in unix
-                var unixTimestamp = response.daily[i].dt
-                //getting date in unix
-                var unixDate = new Date(unixTimestamp * 1000);
-                //converting unix date to useable moment format
-                var convertedDate = moment(unixDate).format("MM/DD/YYYY");
-                //day of week for top of cards
-                var dayOfWeek = moment(unixDate).format("ddd");
-                //grabbing main weather description to narrow down icon variables
-                var weatherObject = response.daily[i].weather[0].main;
-                //if we want more detailed weather for a broader range of icons by id we can use:
-                //var weatherObject = response.daily[i].weather[0].id
+            $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
+            for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
+                var unixTimestamp = response.daily[i].dt                                                        // timestamp in unix
+                var unixDate = new Date(unixTimestamp * 1000);                                                  // getting date in unix
+                var convertedDate = moment(unixDate).format("MM/DD/YYYY");                                      // converting unix date to useable moment format
+                var dayOfWeek = moment(unixDate).format("ddd");                                                 // day of week for top of cards
+                var weatherObject = response.daily[i].weather[0].main;                                          // grabbing main weather description to narrow down icon variables
 
-                var forecast = {
+                var forecast = {                                                                                // Forecast Object
                     date: convertedDate,
                     temp: response.daily[i].temp.day,
                     humidity: response.daily[i].humidity,
                     description: weatherObject.toLowerCase(),
                     card: $("#cardRow1")
                 }
-                //html syntax of our forecast cards
+                
                 var sourceString = `weather-icons/${forecast.description}.png`
+                //html syntax of our forecast cards
                 var details = `<div class="col m2 s6 push-m1">
                                     <div class="card small">
                                         <div class="card-image">
@@ -96,12 +89,8 @@ function openWeatherGet(citySearch) {
                                             <p>Temp: ${forecast.temp}°F</p>
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
-                                    </div>`
-                //appending forecast details onto cards for five day forecast
-                function makeForecast() {
-                    forecast.card.append(details);
-                }
-                makeForecast();
+                                    </div>`                                                                      
+                forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
             };
         });
     });
@@ -153,7 +142,7 @@ function zomatoGet(citySearch) {
         });
     });
 }
-function createNav(){
+function createNav(){                                                                                           // Creates the navbar
     var navBar = `<nav class="N/A transparent nav-wrapper">
     <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
     <ul class="right">
@@ -173,10 +162,9 @@ function createNav(){
     </ul>
   </nav>
   <br>`
-    $('.subBody').prepend(navBar)
-    $(".searchBtn").on("click", function () {
+    $('.subBody').prepend(navBar)                                                                               // Prepends the Navbar to the subBody class
+    $(".searchBtn").on("click", function () {                                                                   // Defines the on click function when the navbar is dynamically created
         event.preventDefault();
-        
         var searchInput = $(".textField").val().trim();
         if (searchInput === "" || searchInput === undefined) {
             alert("Sorry, we couldn't find that. Please enter a valid city.");
