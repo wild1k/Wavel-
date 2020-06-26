@@ -1,3 +1,11 @@
+
+ 
+
+
+
+
+
+
 //grabbing user search criteria from search bar input-field
 $("#searchBtn").on("click", function () {
     event.preventDefault();
@@ -7,14 +15,42 @@ $("#searchBtn").on("click", function () {
         alert("Sorry, we couldn't find that. Please enter a valid city.");
         $("#textField").val("");
     } else {
+        
         openWeatherGet(searchInput);
         zomatoGet(searchInput);
         $("#textField").val("");
+        
     }
 });
 
+
+
+
+
+
+
+//interactive map
+ mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
+    var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-77.04, 38.907],
+    zoom: 11.15,
+    attributionControl: false
+    });
+    map.addControl(new mapboxgl.AttributionControl(), 'top-left');
+ 
+ 
+ 
+
+
+
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
+
+
+   
+
 
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
 
@@ -24,6 +60,13 @@ function openWeatherGet(citySearch) {
     }).then(function (response) {
         // console.log(response)
         var cityName = response.name;
+        //calls the coord for the location put in the search bar
+        var mapCord= response['coord']
+      
+         //makes the map fly to the destination 
+        map.flyTo({center:[mapCord.lon, mapCord.lat], essential: true});
+       
+        
         var country = response.sys.country;
         $(".card-title").text(`${cityName}, ${country}`)
         //TODO: later control for 404 return from queryURL.status (undefined)

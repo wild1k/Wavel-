@@ -21,6 +21,13 @@
 </head>
 
 <body>
+  <!--added for functionality for map-->
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+  <link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
   <!--Nav bar-->
   <nav class="N/A transparent nav-wrapper">
     <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
@@ -47,16 +54,7 @@
         <div class="card">
           <div class="map-image card-image">
             <div id='map' style='width: 100%; height: 300px;'></div>
-            <Script>
-              mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
-              var map = new mapboxgl.Map({
-              container: "map",
-              style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-              center: [-74.5, 40], // starting position [lng, lat]
-              zoom: 9 // starting zoom
-              });
-          </Script>
-           
+         
               <span class="card-title">Card Title</span>
           </div>
         </div>
