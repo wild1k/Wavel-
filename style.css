@@ -5,7 +5,7 @@ body{
 #divide{
     background-color: grey;
 }
-#firstRow{
+.firstRow{
     background-image: url(https://tr.rbxcdn.com/ebf3de81acb24e6d514ebf4a8fe5fcf7/420/420/Decal/Png);
     background-size: cover;
 }
