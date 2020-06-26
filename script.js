@@ -13,9 +13,10 @@ $(document).on("click", ".searchBtn", function () {
     var searchInput = $(".textField").val().trim();
     openWeatherGet(searchInput);
 });
+//setting fallback image for restaurant cards
 //tabs function
-function createTab(){
-     var tabBar = `<div class="row tabRow">
+function createTab() {
+    var tabBar = `<div class="row tabRow">
      <div class="col s12">
        <ul class="tabs cyan lighten-5">
          <li class="tab col s3"><a class="active black-text" href="#cardRow1">Weather</a></li>
@@ -24,11 +25,9 @@ function createTab(){
      </div>
    
    </div>`
-   $(`.container`).append(tabBar)
-   console.log("hello");
-   }
-
-
+    $(`.container`).append(tabBar)
+    console.log("hello");
+}
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
@@ -103,13 +102,13 @@ function openWeatherGet(citySearch) {
                     card: $("#cardRow1")
                 }
 
-                var sourceString = `weather-icons/${forecast.description}.png`
+                var sourceString = `images/${forecast.description}.png`
                 //html syntax of our forecast cards
-                if(i===4){
+                if (i === 4) {
                     var details = `<div class="col m2 s6 push-m1 push-s3">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img src= ${sourceString}>
+                                            <img src= ${sourceString  || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
                                             <p>${dayOfWeek}</p>
@@ -118,12 +117,12 @@ function openWeatherGet(citySearch) {
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
                                     </div>`
-                forecast.card.append(details);                  
-                }else{
-                var details = `<div class="col m2 s6 push-m1">
+                    forecast.card.append(details);
+                } else {
+                    var details = `<div class="col m2 s6 push-m1">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img src= ${sourceString}>
+                                            <img class="weatherImg" src= ${sourceString  || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
                                             <p>${dayOfWeek}</p>
@@ -132,7 +131,7 @@ function openWeatherGet(citySearch) {
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
                                     </div>`
-                forecast.card.append(details);
+                    forecast.card.append(details);
                 }                                                                 //appending forecast details onto cards for five day forecast 
             };
         });
@@ -167,11 +166,11 @@ function zomatoGet(citySearch) {
                     card: $("#cardRow2")
                 };
                 console.log(restaurant.cuisine);
-                if(i===4){
+                if (i === 4) {
                     details = `<div class="col m2 s6 push-m1 push-s3">
                 <div class="card small">
                         <div class="card-image">
-                        <img src= ${restaurant.thumbnail}>
+                        <img src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
@@ -179,13 +178,13 @@ function zomatoGet(citySearch) {
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
-               
+
                     restaurant.card.append(details);
-                }else{
-                details = `<div class="col m2 s6 push-m1">
+                } else {
+                    details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
-                        <img src= ${restaurant.thumbnail}>
+                        <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail  || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
@@ -193,13 +192,13 @@ function zomatoGet(citySearch) {
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
-               
+
                     restaurant.card.append(details);
                 }
 
-            
+
             }
-            
+
             $('ul.tabs').tabs();
         });
     });
