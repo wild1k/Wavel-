@@ -60,7 +60,7 @@ function openWeatherGet(citySearch) {
                     humidity: response.daily[i].humidity,
                     //using toLowerCase on weatherObject for ease of image linking
                     description: weatherObject.toLowerCase(),
-                    card: $(".cardRow1")
+                    card: $("#cardRow1")
                 }
 
                 // console.log(forecast.description);
@@ -115,7 +115,7 @@ function zomatoGet(citySearch) {
                     menu: response.best_rated_restaurant[i].restaurant.menu_url,
                     cuisine: response.best_rated_restaurant[i].restaurant.cuisines,
                     thumbnail: response.best_rated_restaurant[i].restaurant.thumb,
-                    card: $(".cardRow2")
+                    card: $("#cardRow2")
                 };
                 console.log(restaurant);
 
