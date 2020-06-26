@@ -176,16 +176,16 @@ function createNav(){
     $('.subBody').prepend(navBar)
     $(".searchBtn").on("click", function () {
         event.preventDefault();
-        console.log("You Clicked a button")
-        $(".cardRow").empty();
+        
         var searchInput = $(".textField").val().trim();
         if (searchInput === "" || searchInput === undefined) {
             alert("Sorry, we couldn't find that. Please enter a valid city.");
             $(".textField").val("");
-        } else {
-            $(".subBody").empty()
-            createNav()
-            $(".subBody").append($("<div class = container>"))
+            console.log("hello")
+        } 
+        else {
+            $(".cardRow").empty();
+            $(".container").empty()
             openWeatherGet(searchInput);
             zomatoGet(searchInput);
             $(".textField").val("");
