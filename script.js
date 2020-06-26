@@ -211,7 +211,7 @@ function createNav() {                                                          
         <div class="row">
           <div class="col s12">
             <div class="row" id="topbarsearch">
-              <div class="input-field col s6 s12 red-text">
+              <div class="input-field col m12 s9 push-s3 red-text">
                 <input class ="textField" type="text" placeholder="City Name Here"  id="autocomplete-input"
                   class="autocomplete black-text">
               </div>
@@ -219,7 +219,7 @@ function createNav() {                                                          
           </div>
         </div>
       </li>
-      <li><a class="button deep-purple accent-1 searchBtn" >Search</a></li>
+      <li><a class="button waves-effect deep-purple accent-1 searchBtn" >Search</a></li>
     </ul>
   </nav>
   <br>`
