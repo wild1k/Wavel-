@@ -13,6 +13,11 @@ nav .brand-logo{
     margin-left: 10px;
     font-size: 3.5rem;
 }
+@media only screen and (max-width: 668px){
+    nav .brand-logo{
+        font-size:2.5rem;
+    }
+}
 #homepage-logo{
     margin-top: 250px;
 }
@@ -21,6 +26,9 @@ nav .brand-logo{
 }
 .forecast-image{
     background-color: rgb(222, 242, 245);
+}
+.card .card-image img{
+    height: 160px;
 }
 .test{
     color: black !important;
