@@ -8,9 +8,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Compiled and minified CSS  for materialize-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-  <!-- Compiled and minified JavaScript for materialize -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!--mapbox script and css-->
   <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
@@ -21,46 +18,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
-  <!--Nav bar-->
-  <nav class="N/A transparent nav-wrapper">
-    <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
-    <ul class="right">
-      <li>
-        <div class="row">
-          <div class="col s12">
-            <div class="row" id="topbarsearch">
-              <div class="input-field col s6 s12 red-text">
-                <input type="text" placeholder="City Name Here" id="textField" id="autocomplete-input" class="autocomplete black-text">
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li><a class="button deep-purple accent-1" id="searchBtn">Search</a></li>
-    </ul>
-  </nav>
-  <br>
-  <!--container and map image-->
-  <div class="container">
-    <div class="row" id="firstRow">
-      <div class="col m6 push-m3 s12">
-        <div class="card">
-          <div class="map-image card-image">
-            <div id='map' style='width: 100%; height: 300px;'></div>
-            <Script>
-              mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
-              var map = new mapboxgl.Map({
-              container: "map",
-              style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-              center: [-74.5, 40], // starting position [lng, lat]
-              zoom: 9 // starting zoom
-              });
-          </Script>
-           
-              <span class="card-title black-text">Card Title</span>
-          </div>
-=======
   <script
     src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
   <link rel="stylesheet"
@@ -73,7 +30,6 @@
         <div class="input-field col s6 push-s3">
           <input type="text" placeholder="City Name Here" id="autocomplete-input"
             class="autocomplete black-text textField">
->>>>>>> 82f9cf9dcdf4bd7599ad3d7108eb145455bd9ca2
         </div>
       </div>
       <div class="row">
@@ -83,30 +39,14 @@
       <div class="container">
       </div>
     </div>
-<<<<<<< HEAD
-    <!--forecast cards-->
-    <h4 class="card-sections cyan-text text-darken-4">Weather Forecast</h4>
-    <div class="row cardRow" id="cardRow1" id=firstRow>
-      <!--changes colum positions small/medium-large screens-->
-
-    </div>
-    <h4 class="card-sections deep-purple-text text-darken-1">Restaurants</h4>
-    <div class="row cardRow" id="cardRow2" id=firstRow>
-      <!--changes colum positions small/medium-large screens-->
-
-    </div>
-  </div>
-  </div>
-  <!--JQuery CDN and JS file-->
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script src="script.js"></script>
-=======
     <!--JQuery CDN and JS file-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    
+  <!-- Compiled and minified JavaScript for materialize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="script.js"></script>
->>>>>>> 82f9cf9dcdf4bd7599ad3d7108eb145455bd9ca2
 </body>
 
 </html>

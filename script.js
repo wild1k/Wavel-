@@ -13,10 +13,27 @@ $(".searchBtn").on("click", function () {
         $(".subBody").append($("<div class = container>"))
         openWeatherGet(searchInput);
         zomatoGet(searchInput);
+        createTab();
         $(".textField").val("");
 
     }
 });
+//tabs function
+function createTab(){
+     var tabBar = `<div class="row tabRow">
+     <div class="col s12">
+       <ul class="tabs cyan lighten-5">
+         <li class="tab col s3"><a class="active black-text" href="#cardRow1">Weather</a></li>
+         <li class="tab col s3"><a class="black-text" href="#cardRow2">Restaurants</a></li>
+       </ul>
+     </div>
+   
+   </div>`
+   $(`.container`).append(tabBar)
+     $('ul.tabs').tabs();
+   }
+
+
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
@@ -60,7 +77,7 @@ function openWeatherGet(citySearch) {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
+            $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
             for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
                 var unixTimestamp = response.daily[i].dt                                                        // timestamp in unix
                 var unixDate = new Date(unixTimestamp * 1000);                                                  // getting date in unix
@@ -90,7 +107,8 @@ function openWeatherGet(citySearch) {
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
                                     </div>`                                                                      
-                forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
+                forecast.card.append(details);
+                $('ul.tabs').tabs();                                                                  //appending forecast details onto cards for five day forecast 
             };
         });
     });
@@ -112,7 +130,7 @@ function zomatoGet(citySearch) {
             method: "GET",
             headers: { "user-key": key }
         }).then(function (response) {
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
+            $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
             for (i = 0; i < 5; i++) {
                 var restaurant = {
                     name: response.best_rated_restaurant[i].restaurant.name,
@@ -133,11 +151,9 @@ function zomatoGet(citySearch) {
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
-
-                function renderRestaurants() {
+               
                     restaurant.card.append(details);
-                }
-                renderRestaurants();
+                $('ul.tabs').tabs();
             }
         });
     });

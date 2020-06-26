@@ -12,7 +12,6 @@ body{
 nav .brand-logo{
     margin-left: 10px;
     font-size: 3.5rem;
-    font-weight: bold;
 }
 #homepage-logo{
     margin-top: 250px;
@@ -23,11 +22,6 @@ nav .brand-logo{
 .forecast-image{
     background-color: rgb(222, 242, 245);
 }
-<<<<<<< HEAD
-.card-sections{
-    font-weight: bold;
-=======
 .test{
     color: black !important;
->>>>>>> 82f9cf9dcdf4bd7599ad3d7108eb145455bd9ca2
 }
