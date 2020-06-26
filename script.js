@@ -6,12 +6,6 @@ $(document).on("click", ".searchBtn", function () {
     openWeatherGet(searchInput);
 });
 //setting fallback image for restaurant cards
-$(".restaurantImg".on("error", function () {
-    $(this).attr("src", "/images/restaurant-placeholder.png");
-}));
-$(".weatherImg".on("error", function () {
-    $(this).attr("src", "/images/weather-placeholder.png");
-}));
 //tabs function
 function createTab() {
     var tabBar = `<div class="row tabRow">
@@ -97,7 +91,7 @@ function openWeatherGet(citySearch) {
                     var details = `<div class="col m2 s6 push-m1 push-s3">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img src= ${sourceString}>
+                                            <img src= ${sourceString  || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
                                             <p>${dayOfWeek}</p>
@@ -111,7 +105,7 @@ function openWeatherGet(citySearch) {
                     var details = `<div class="col m2 s6 push-m1">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img class="weatherImg" src= ${sourceString}>
+                                            <img class="weatherImg" src= ${sourceString  || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
                                             <p>${dayOfWeek}</p>
@@ -159,7 +153,7 @@ function zomatoGet(citySearch) {
                     details = `<div class="col m2 s6 push-m1 push-s3">
                 <div class="card small">
                         <div class="card-image">
-                        <img src= ${restaurant.thumbnail}>
+                        <img src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
@@ -173,7 +167,7 @@ function zomatoGet(citySearch) {
                     details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
-                        <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail}>
+                        <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail  || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
