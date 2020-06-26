@@ -5,6 +5,22 @@ $(document).on("click", ".searchBtn", function () {
     var searchInput = $(".textField").val().trim();
     openWeatherGet(searchInput);
 });
+//tabs function
+function createTab(){
+     var tabBar = `<div class="row tabRow">
+     <div class="col s12">
+       <ul class="tabs cyan lighten-5">
+         <li class="tab col s3"><a class="active black-text" href="#cardRow1">Weather</a></li>
+         <li class="tab col s3"><a class="black-text" href="#cardRow2">Restaurants</a></li>
+       </ul>
+     </div>
+   
+   </div>`
+   $(`.container`).append(tabBar)
+   console.log("hello");
+   }
+
+
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
@@ -51,7 +67,8 @@ function openWeatherGet(citySearch) {
             url: queryURL,
             method: "GET",
         }).then(function (response) {
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
+            createTab();
+            $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
             for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
                 var unixTimestamp = response.daily[i].dt                                                        // timestamp in unix
                 var unixDate = new Date(unixTimestamp * 1000);                                                  // getting date in unix
@@ -69,6 +86,21 @@ function openWeatherGet(citySearch) {
 
                 var sourceString = `weather-icons/${forecast.description}.png`
                 //html syntax of our forecast cards
+                if(i===4){
+                    var details = `<div class="col m2 s6 push-m1 push-s3">
+                                    <div class="card small">
+                                        <div class="card-image">
+                                            <img src= ${sourceString}>
+                                        </div>
+                                        <div class="card-content">
+                                            <p>${dayOfWeek}</p>
+                                            <p>${forecast.date}</p>
+                                            <p>Temp: ${forecast.temp}°F</p>
+                                            <p>Humidity: ${forecast.humidity}%</p>
+                                        </div>
+                                    </div>`
+                forecast.card.append(details);                  
+                }else{
                 var details = `<div class="col m2 s6 push-m1">
                                     <div class="card small">
                                         <div class="card-image">
@@ -81,7 +113,8 @@ function openWeatherGet(citySearch) {
                                             <p>Humidity: ${forecast.humidity}%</p>
                                         </div>
                                     </div>`
-                forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
+                forecast.card.append(details);
+                }                                                                 //appending forecast details onto cards for five day forecast 
             };
         });
     }).catch(function (error) {
@@ -105,7 +138,7 @@ function zomatoGet(citySearch) {
             method: "GET",
             headers: { "user-key": key }
         }).then(function (response) {
-            $(".container").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
+            $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
             for (i = 0; i < 5; i++) {
                 var restaurant = {
                     name: response.best_rated_restaurant[i].restaurant.name,
@@ -115,6 +148,21 @@ function zomatoGet(citySearch) {
                     card: $("#cardRow2")
                 };
                 console.log(restaurant.cuisine);
+                if(i===4){
+                    details = `<div class="col m2 s6 push-m1 push-s3">
+                <div class="card small">
+                        <div class="card-image">
+                        <img src= ${restaurant.thumbnail}>
+                        </div>
+                        <div class="card-content">
+                        <p>${restaurant.name}</p>
+                        <p>${restaurant.cuisine}</p>
+                        <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
+                        </div>
+                        </div>`
+               
+                    restaurant.card.append(details);
+                }else{
                 details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
@@ -126,12 +174,14 @@ function zomatoGet(citySearch) {
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
-
-                function renderRestaurants() {
+               
                     restaurant.card.append(details);
                 }
-                renderRestaurants();
+
+            
             }
+            
+            $('ul.tabs').tabs();
         });
     });
 }
