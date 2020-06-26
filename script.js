@@ -1,74 +1,57 @@
-
- 
-
-
-
-
-
-
 //grabbing user search criteria from search bar input-field
-$("#searchBtn").on("click", function () {
+$(".searchBtn").on("click", function () {
     event.preventDefault();
+    console.log("You Clicked a button")
     $(".cardRow").empty();
-    var searchInput = $("#textField").val().trim();
+    var searchInput = $(".textField").val().trim();
     if (searchInput === "" || searchInput === undefined) {
         alert("Sorry, we couldn't find that. Please enter a valid city.");
-        $("#textField").val("");
+        $(".textField").val("");
     } else {
-        
+        $(".subBody").empty()
+        createNav()
+        $(".subBody").append($("<div class = container>"))
         openWeatherGet(searchInput);
         zomatoGet(searchInput);
-        $("#textField").val("");
-        
+        $(".textField").val("");
+
     }
 });
-
-
-
-
-
-
-
-//interactive map
- mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
-    var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-77.04, 38.907],
-    zoom: 11.15,
-    attributionControl: false
-    });
-    map.addControl(new mapboxgl.AttributionControl(), 'top-left');
- 
- 
- 
-
-
-
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
-
-
-   
-
-
     queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&appid=51eff38dc476b28387cdbdbd9705ea5b&units=imperial";
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        // console.log(response)
         var cityName = response.name;
         //calls the coord for the location put in the search bar
-        var mapCord= response['coord']
-      
-         //makes the map fly to the destination 
-        map.flyTo({center:[mapCord.lon, mapCord.lat], essential: true});
-       
-        
+        var mapCord = response['coord']
         var country = response.sys.country;
-        $(".card-title").text(`${cityName}, ${country}`)
+        var mapCreate = ` <div class="row firstRow">
+                            <div class="col m6 push-m3 s12">
+                                <div class="card">
+                                    <div class="map-image card-image">
+                                        <div id='map' style='width: 100%; height: 300px;'></div>
+                                        <span class="card-title test">Card Title</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>`
+        $(".container").prepend(mapCreate)
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [-77.04, 38.907],
+                zoom: 11.15,
+                attributionControl: false
+            });
+        map.addControl(new mapboxgl.AttributionControl(), 'top-left');
+        map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });                                     // Makes the map fly to the destination 
+        $(".card-title").text(`${cityName}, ${country}`)                                                        // Makes the title the name of the country and city
         //TODO: later control for 404 return from queryURL.status (undefined)
         // console.log(queryURL.status);
         //         //grabbing data from openweathermap.org 'onecall api' for daily forecast cards
@@ -77,58 +60,37 @@ function openWeatherGet(citySearch) {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            // console.log(response);
+            $(".container").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
+            for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
+                var unixTimestamp = response.daily[i].dt                                                        // timestamp in unix
+                var unixDate = new Date(unixTimestamp * 1000);                                                  // getting date in unix
+                var convertedDate = moment(unixDate).format("MM/DD/YYYY");                                      // converting unix date to useable moment format
+                var dayOfWeek = moment(unixDate).format("ddd");                                                 // day of week for top of cards
+                var weatherObject = response.daily[i].weather[0].main;                                          // grabbing main weather description to narrow down icon variables
 
-            //gathering forecast data for five consecutive days
-            for (i = 0; i < 5; i++) {
-                //timestamp in unix
-                var unixTimestamp = response.daily[i].dt
-                //getting date in unix
-                var unixDate = new Date(unixTimestamp * 1000);
-                //converting unix date to useable moment format
-                var convertedDate = moment(unixDate).format("MM/DD/YYYY");
-                //day of week for top of cards
-                var dayOfWeek = moment(unixDate).format("ddd");
-                //grabbing main weather description to narrow down icon variables
-                var weatherObject = response.daily[i].weather[0].main;
-                //if we want more detailed weather for a broader range of icons by id we can use:
-                // console.log(weatherObject);
-                //var weatherObject = response.daily[i].weather[0].id
-
-                //stringifying our weatherObject so we can use it as a working variable
-
-                var forecast = {
+                var forecast = {                                                                                // Forecast Object
                     date: convertedDate,
                     temp: response.daily[i].temp.day,
                     humidity: response.daily[i].humidity,
-                    //using toLowerCase on weatherObject for ease of image linking
                     description: weatherObject.toLowerCase(),
                     card: $("#cardRow1")
                 }
-
-                // console.log(forecast.description);
-                //still need working weather icon link, and alt is not displaying for some reason (syntax error?)
-                //html syntax of our forecast cards
+                
                 var sourceString = `weather-icons/${forecast.description}.png`
-                // console.log(sourceString);
-                // console.log(forecast);
+                //html syntax of our forecast cards
                 var details = `<div class="col m2 s6 push-m1">
-                <div class="card small">
-                        <div class="card-image">
-                          <img src= ${sourceString}>
-                        </div>
-                        <div class="card-content">
-                        <p>${dayOfWeek}</p>
-                          <p>${forecast.date}</p>
-                          <p>Temp: ${forecast.temp}°F</p>
-                          <p>Humidity: ${forecast.humidity}%</p>
-                        </div>
-                        </div>`
-                //appending forecast details onto cards for five day forecast
-                function makeForecast() {
-                    forecast.card.append(details);
-                }
-                makeForecast();
+                                    <div class="card small">
+                                        <div class="card-image">
+                                            <img src= ${sourceString}>
+                                        </div>
+                                        <div class="card-content">
+                                            <p>${dayOfWeek}</p>
+                                            <p>${forecast.date}</p>
+                                            <p>Temp: ${forecast.temp}°F</p>
+                                            <p>Humidity: ${forecast.humidity}%</p>
+                                        </div>
+                                    </div>`                                                                      
+                forecast.card.append(details);                                                                  //appending forecast details onto cards for five day forecast 
             };
         });
     });
@@ -150,8 +112,7 @@ function zomatoGet(citySearch) {
             method: "GET",
             headers: { "user-key": key }
         }).then(function (response) {
-            console.log(response);
-
+            $(".container").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
             for (i = 0; i < 5; i++) {
                 var restaurant = {
                     name: response.best_rated_restaurant[i].restaurant.name,
@@ -161,7 +122,6 @@ function zomatoGet(citySearch) {
                     card: $("#cardRow2")
                 };
                 console.log(restaurant);
-
                 details = `<div class="col m2 s6 push-m1">
                 <div class="card small">
                         <div class="card-image">
@@ -180,5 +140,43 @@ function zomatoGet(citySearch) {
                 renderRestaurants();
             }
         });
+    });
+}
+function createNav(){                                                                                           // Creates the navbar
+    var navBar = `<nav class="N/A transparent nav-wrapper">
+    <a href="#" class="left brand-logo cyan-text text-darken-1">Wavel</a>
+    <ul class="right">
+      <li>
+        <div class="row">
+          <div class="col s12">
+            <div class="row" id="topbarsearch">
+              <div class="input-field col s6 s12 red-text">
+                <input class ="textField" type="text" placeholder="City Name Here"  id="autocomplete-input"
+                  class="autocomplete black-text">
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a class="button deep-purple accent-1 searchBtn" >Search</a></li>
+    </ul>
+  </nav>
+  <br>`
+    $('.subBody').prepend(navBar)                                                                               // Prepends the Navbar to the subBody class
+    $(".searchBtn").on("click", function () {                                                                   // Defines the on click function when the navbar is dynamically created
+        event.preventDefault();
+        var searchInput = $(".textField").val().trim();
+        if (searchInput === "" || searchInput === undefined) {
+            alert("Sorry, we couldn't find that. Please enter a valid city.");
+            $(".textField").val("");
+            console.log("hello")
+        } 
+        else {
+            $(".cardRow").empty();
+            $(".container").empty()
+            openWeatherGet(searchInput);
+            zomatoGet(searchInput);
+            $(".textField").val("");
+        }
     });
 }
