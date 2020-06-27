@@ -247,8 +247,8 @@ function hotelsGet(citySearch) {
                 $("#cardRow3").empty()
                 for (i = 0; i < 6; i++) {
                     var hotel = response.data.body.searchResults.results[i]
-                    var details = `<div class="col m2 s6">
-                        <div class="card small">
+                    var details = `<div class="col l2 m4 s6">
+                        <div class="card medium">
                         <div class="card-image">
                         <img class="hotelImg" alt="restaurant thumbnail" src= ${hotel.thumbnailUrl || "images/restaurant-placeholder.png"}>
                         </div>
