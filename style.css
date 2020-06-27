@@ -24,11 +24,14 @@ nav .brand-logo{
 #homepage-btn{
     margin-bottom: 300px;
 }
-.forecast-image{
-    background-color: rgb(222, 242, 245);
+.card{
+   background-color: rgb(169, 232, 248); 
 }
 .card .card-image img{
     height: 160px;
+}
+.theBoldTitle{
+    font-weight: bold;
 }
 .test{
     color: black !important;
