@@ -13,10 +13,9 @@ nav .brand-logo{
     margin-left: 10px;
     font-size: 3.5rem;
 }
-@media only screen and (max-width: 668px){
-    nav .brand-logo{
-        font-size:2.5rem;
-    }
+/* Button on map screen up by 10px */
+nav ul a {
+    margin-bottom: 10px;
 }
 #homepage-logo{
     margin-top: 250px;
@@ -36,7 +35,21 @@ nav .brand-logo{
 .test{
     color: black !important;
 }
-.limit-text {
+/*.limit-text {
     height: 2rem;
     overflow: hidden;
+}*/
+
+.tabs {
+    margin-top: 10px;
+}
+@media only screen and (min-width: 993px){
+.container {
+    width: 100%;
+    }
+}
+@media only screen and (max-width: 668px){
+    nav .brand-logo{
+        font-size:2.5rem;
+    }
 }

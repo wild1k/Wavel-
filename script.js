@@ -99,7 +99,7 @@ function openWeatherGet(citySearch) {
                 var sourceString = `images/${forecast.description}.png`
                 //html syntax of our forecast cards
                 if (i === 5) {
-                    var details = `<div class="col m2 s6 push-m1 push-s3">
+                    var details = `<div class="col l2 m4 s6">
                                     <div class="card small">
                                         <div class="card-image">
                                             <img src= ${sourceString || "images/weather-placeholder.png"}>
@@ -113,7 +113,7 @@ function openWeatherGet(citySearch) {
                                     </div>`
                     forecast.card.append(details);
                 } else {
-                    var details = `<div class="col m2 s6 push-m1">
+                    var details = `<div class="col l2 m4 s6">
                                     <div class="card small">
                                         <div class="card-image">
                                             <img class="weatherImg" src= ${sourceString || "images/weather-placeholder.png"}>
@@ -162,13 +162,13 @@ function zomatoGet(citySearch) {
                 };
                 console.log(restaurant.cuisine);
                 if (i === 5) {
-                    details = `<div class="col m2 s6 push-m1 push-s3">
+                    details = `<div class="col l2 m4 s6">
                 <div class="card small">
                         <div class="card-image">
                         <img src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
-                        <p class="limit-text" rows="2">${restaurant.name}</p>
+                        <p class="limit-text theBoldTitle" rows="2">${restaurant.name}</p>
                         <p class="limit-text" rows="2">${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
@@ -176,13 +176,13 @@ function zomatoGet(citySearch) {
 
                     restaurant.card.append(details);
                 } else {
-                    details = `<div class="col m2 s6 push-m1">
+                    details = `<div class="col l2 m4 s6">
                 <div class="card small">
                         <div class="card-image">
                         <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
-                        <p class="limit-text" rows="2">${restaurant.name}</p>
+                        <p class="limit-text theBoldTitle" rows="2">${restaurant.name}</p>
                         <p class="limit-text" rows="2">${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
