@@ -62,8 +62,8 @@ function openWeatherGet(citySearch) {
                 
                 container: 'map',
                 style: 'mapbox://styles/wild1k/ckbwlrt6r18mq1ho6214s9ip6',
-                center: [-77.04, 38.907],
-                zoom: 11.15,
+                center: [-122.04, 47.507],
+                zoom: 13,
                 attributionControl: false
       });     
             
