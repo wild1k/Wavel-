@@ -135,8 +135,9 @@ function openWeatherGet(citySearch) {
                 }                                                                 //appending forecast details onto cards for five day forecast 
             };
         });
-    }).catch(function (error) {
-        alert("Sorry, we couldn't find that. Please enter a valid city.");
+    }).catch(function (error) {                                                    //Modal popup for incorrect city
+        $('#modal').modal();
+    $('#modal').modal('open'); 
         $(".textField").val("");
     });
 }
