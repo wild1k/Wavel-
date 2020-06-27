@@ -48,10 +48,10 @@ function openWeatherGet(citySearch) {
         var mapCord = response['coord']
         var country = response.sys.country;
         var mapCreate = ` <div class="row firstRow">
-                            <div class="col m6 push-m3 s12">
+                            <div class="col s12">
                                 <div class="card">
                                     <div class="map-image card-image">
-                                        <div id='map' style='width: 100%; height: 300px;'></div>
+                                        <div id='map' style='width: 100%; height: 400px;'></div>
                                         <span class="card-title test">Card Title</span>
                                     </div>
                                     
@@ -127,7 +127,7 @@ function openWeatherGet(citySearch) {
                                             <img class="weatherImg" src= ${sourceString  || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
-                                            <p>${dayOfWeek}</p>
+                                            <p class="theBoldTitle">${dayOfWeek}</p>
                                             <p>${forecast.date}</p>
                                             <p>Temp: ${forecast.temp}°F</p>
                                             <p>Humidity: ${forecast.humidity}%</p>
@@ -175,7 +175,7 @@ function zomatoGet(citySearch) {
                         <img src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
-                        <p>${restaurant.name}</p>
+                        <p class="theBoldTitle">${restaurant.name}</p>
                         <p>${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
@@ -189,7 +189,7 @@ function zomatoGet(citySearch) {
                         <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail  || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
-                        <p>${restaurant.name}</p>
+                        <p class="theBoldTitle">${restaurant.name}</p>
                         <p>${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
