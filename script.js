@@ -16,6 +16,7 @@ function createTab() {
        <ul class="tabs cyan lighten-5">
          <li class="tab col s3"><a class="active black-text" href="#cardRow1">Weather</a></li>
          <li class="tab col s3"><a class="black-text" href="#cardRow2">Restaurants</a></li>
+         <li class="tab col s3"><a class="black-text" href="#cardRow3">Hotels</a></li>
        </ul>
      </div>
    
@@ -34,6 +35,7 @@ function openWeatherGet(citySearch) {
         createNav()
         $(".subBody").append($("<div class = container>"))
         zomatoGet(citySearch);
+        hotelsGet(citySearch);
         $(".textField").val("");
         var cityName = response.name;
         //calls the coord for the location put in the search bar
@@ -197,6 +199,79 @@ function zomatoGet(citySearch) {
             $('ul.tabs').tabs();
         });
     });
+}
+function hotelsGet(citySearch) {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": `https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=${citySearch}`,
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "hotels4.p.rapidapi.com",
+            "x-rapidapi-key": "5e16a61383msh668a5a4f74ccadfp1a1e7ajsn0e72bb544572"
+        }
+    }
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+    }).then(function (response) {
+        $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow3"></div>')
+        var cityID = response.suggestions[0].entities[0].destinationId
+        var startDateBox = `<div class="input-field col m12 s9 push-s3 red-text">
+                                <input class ="startInput" type="text" placeholder="YYYY-MM-DD"  id="autocomplete-input" class="autocomplete black-text">
+                            </div>`
+        var endDateBox = `<div class="input-field col m12 s9 push-s3 red-text">
+                            <input class ="endInput" type="text" placeholder="YYYY-MM-DD"  id="autocomplete-input" class="autocomplete black-text">
+                        </div>`
+        var dateSubmit = `<button class =dateBtn>Submit</button>`
+        $("#cardRow3").append(startDateBox, endDateBox, dateSubmit)
+        $(document).on("click", ".dateBtn", function () {
+            event.preventDefault();
+            var startInput = $(".startInput").val().trim();
+            var endInput = $(".endInput").val().trim();
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": `https://hotels4.p.rapidapi.com/properties/list?currency=USD&locale=en_US&sortOrder=BEST_SELLER&destinationId=${cityID}&pageNumber=1&checkIn=${startInput}&checkOut=${endInput}&pageSize=25&adults1=1`,
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "hotels4.p.rapidapi.com",
+                    "x-rapidapi-key": "5e16a61383msh668a5a4f74ccadfp1a1e7ajsn0e72bb544572"
+                }
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log("This is what you're looking for")
+                console.log(response.data.body.searchResults.results);
+             }).then(function (response) {
+                $("#cardRow3").empty()
+                for (i = 0; i < 6; i++) {
+                    var hotel = response.data.body.searchResults.results[i]
+                    var details = `<div class="col m2 s6">
+                        <div class="card small">
+                        <div class="card-image">
+                        <img class="hotelImg" alt="restaurant thumbnail" src= ${hotel.thumbnailUrl || "images/restaurant-placeholder.png"}>
+                        </div>
+                        <div class="card-content">
+                        <p class="theBoldTitle">${hotel.name}</p>
+                        <p>Rating: ${hotel.starRating}</p>
+                        <p>Address: ${hotel.address.streetAddress}</p>
+                        </div>
+                        </div>`
+                        $("#cardRow3").append(details)
+                }
+            })
+        });
+
+    })
+    // Then grab the city ID by search input
+    // Generate a date fields in the new tab
+    // Have the user set a checkIn checkOut date and the number of people
+    // On submit make another ajax call for properties/list using the three values
+    // return the top 6 results for hotels and present them as cards
+
+
+
 }
 function createNav() {                                                                                           // Creates the navbar
     var navBar = `<nav class="N/A transparent nav-wrapper">
