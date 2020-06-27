@@ -165,7 +165,7 @@ function zomatoGet(citySearch) {
                 console.log(restaurant.cuisine);
                 if (i === 5) {
                     details = `<div class="col l2 m4 s6">
-                <div class="card small">
+                <div class="card medium">
                         <div class="card-image">
                         <img src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
@@ -179,7 +179,7 @@ function zomatoGet(citySearch) {
                     restaurant.card.append(details);
                 } else {
                     details = `<div class="col l2 m4 s6">
-                <div class="card small">
+                <div class="card medium">
                         <div class="card-image">
                         <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
