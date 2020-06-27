@@ -174,7 +174,7 @@ function zomatoGet(citySearch) {
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
-                        <p>${restaurant.cuisine}</p>
+                        <p class="limit-text">${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
@@ -188,7 +188,7 @@ function zomatoGet(citySearch) {
                         </div>
                         <div class="card-content">
                         <p>${restaurant.name}</p>
-                        <p>${restaurant.cuisine}</p>
+                        <p class="limit-text">${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
