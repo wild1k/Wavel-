@@ -13,10 +13,9 @@ nav .brand-logo{
     margin-left: 10px;
     font-size: 3.5rem;
 }
-@media only screen and (max-width: 668px){
-    nav .brand-logo{
-        font-size:2.5rem;
-    }
+/* Button on map screen up by 10px */
+nav ul a {
+    margin-bottom: 10px;
 }
 #homepage-logo{
     margin-top: 250px;
@@ -24,12 +23,31 @@ nav .brand-logo{
 #homepage-btn{
     margin-bottom: 300px;
 }
-.forecast-image{
-    background-color: rgb(222, 242, 245);
+.card{
+   background-color: rgb(169, 232, 248); 
 }
 .card .card-image img{
     height: 160px;
 }
+.theBoldTitle{
+    font-weight: bold;
+}
 .test{
     color: black !important;
+}
+.tabs {
+    margin-top: 10px;
+}
+.card.medium .card-image+.card-content{
+    max-height: 50%;
+}
+@media only screen and (min-width: 993px){
+.container {
+    width: 100%;
+    }
+}
+@media only screen and (max-width: 668px){
+    nav .brand-logo{
+        font-size:2.5rem;
+    }
 }
