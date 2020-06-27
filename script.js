@@ -42,6 +42,8 @@ function openWeatherGet(citySearch) {
         zomatoGet(citySearch);
         $(".textField").val("");
         var cityName = response.name;
+        
+        
         //calls the coord for the location put in the search bar
         var mapCord = response['coord']
         var country = response.sys.country;
