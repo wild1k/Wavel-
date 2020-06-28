@@ -208,15 +208,13 @@ function hotelsGet(citySearch) {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "hotels4.p.rapidapi.com",
-            "x-rapidapi-key": "5e16a61383msh668a5a4f74ccadfp1a1e7ajsn0e72bb544572"
+            "x-rapidapi-key": "96fac8ebcfmsha7664cb17f3e6cfp10f2eejsn0862cda615e5"
         }
     }
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
     }).then(function (response) {
         $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow3"></div>')
-        var cityID = response.suggestions[0].entities[0].destinationId
         var startDateBox = `<div class="input-field col m12 s9 push-s3 red-text">
                                 <input class ="startInput" type="text" placeholder="YYYY-MM-DD"  id="autocomplete-input" class="autocomplete black-text">
                             </div>`
@@ -225,8 +223,9 @@ function hotelsGet(citySearch) {
                         </div>`
         var dateSubmit = `<button class =dateBtn>Submit</button>`
         $("#cardRow3").append(startDateBox, endDateBox, dateSubmit)
-        $(document).on("click", ".dateBtn", function () {
+        $(".dateBtn").on("click", function () {
             event.preventDefault();
+            var cityID = response.suggestions[0].entities[0].destinationId
             var startInput = $(".startInput").val().trim();
             var endInput = $(".endInput").val().trim();
             var settings = {
@@ -240,13 +239,13 @@ function hotelsGet(citySearch) {
                 }
             }
 
-            $.ajax(settings).done(function (response) {
+            $.ajax(settings).done(function (newResponse) {
                 console.log("This is what you're looking for")
-                console.log(response.data.body.searchResults.results);
-             }).then(function (response) {
+                console.log(newResponse.data.body.searchResults.results);
+             }).then(function (newResponse) {
                 $("#cardRow3").empty()
                 for (i = 0; i < 6; i++) {
-                    var hotel = response.data.body.searchResults.results[i]
+                    var hotel = newResponse.data.body.searchResults.results[i]
                     var details = `<div class="col l2 m4 s6">
                         <div class="card medium">
                         <div class="card-image">
