@@ -38,6 +38,8 @@ function openWeatherGet(citySearch) {
         hotelsGet(citySearch);
         $(".textField").val("");
         var cityName = response.name;
+        
+        
         //calls the coord for the location put in the search bar
         var mapCord = response['coord']
         var country = response.sys.country;
@@ -63,6 +65,7 @@ function openWeatherGet(citySearch) {
             attributionControl: false
         });
 
+         
         //adding markers to city search
         var marker = new mapboxgl.Marker()
             .setLngLat([mapCord.lon, mapCord.lat])
@@ -71,7 +74,7 @@ function openWeatherGet(citySearch) {
         // Makes the map fly to the destination 
         // Makes the title the name of the country and city
         map.addControl(new mapboxgl.AttributionControl(), 'top-left');
-        map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });
+        map.flyTo({center: [mapCord.lon, mapCord.lat], essential: true });
         $(".card-title").text(`${cityName}, ${country}`)
         //TODO: later control for 404 return from queryURL.status (undefined)
         // console.log(queryURL.status);
@@ -215,6 +218,10 @@ function hotelsGet(citySearch) {
     $.ajax(settings).done(function (response) {
     }).then(function (response) {
         $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow3"></div>')
+        var cityID = response.suggestions[0].entities[0].destinationId
+        console.log(cityID);
+        
+        
         var startDateBox = `<div class="input-field col m12 s9 push-s3 red-text">
                                 <input class ="startInput" type="text" placeholder="YYYY-MM-DD"  id="autocomplete-input" class="autocomplete black-text">
                             </div>`
