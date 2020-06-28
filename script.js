@@ -1,10 +1,5 @@
-
-
 //secret key for making multiple pindrops
 // sk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYndwM3A0OTBpNHozMXAzMG8zbTY4YjcifQ.Ery_IrBQ7OHK8e07QeV7pw
-
-
-
 
 //grabbing user search criteria from search bar input-field
 $(document).on("click", ".searchBtn", function () {
@@ -21,12 +16,12 @@ function createTab() {
        <ul class="tabs cyan lighten-5">
          <li class="tab col s3"><a class="active black-text" href="#cardRow1">Weather</a></li>
          <li class="tab col s3"><a class="black-text" href="#cardRow2">Restaurants</a></li>
+         <li class="tab col s3"><a class="black-text" href="#cardRow3">Hotels</a></li>
        </ul>
      </div>
    
    </div>`
     $(`.container`).append(tabBar)
-    console.log("hello");
 }
 //grabbing data from openweathermap.org/api 'current weather data' to find latitute and longitude to plug into onecall api
 function openWeatherGet(citySearch) {
@@ -40,6 +35,7 @@ function openWeatherGet(citySearch) {
         createNav()
         $(".subBody").append($("<div class = container>"))
         zomatoGet(citySearch);
+        hotelsGet(citySearch);
         $(".textField").val("");
         var cityName = response.name;
         
@@ -60,22 +56,22 @@ function openWeatherGet(citySearch) {
                         </div>`
         $(".container").prepend(mapCreate)
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsZDFrIiwiYSI6ImNrYnYybnNyMDAyMXgzNG54OXU1Z2drcGYifQ.MUn86umO4rIoDnJHpdQuTw';
-            var map = new mapboxgl.Map({
-                
-                container: 'map',
-                style: 'mapbox://styles/wild1k/ckbwlrt6r18mq1ho6214s9ip6',
-                center: [-122.04, 47.507],
-                zoom: 13,
-                attributionControl: false
-      });     
-            
-      //adding markers to city search
-            var marker = new mapboxgl.Marker()
+        var map = new mapboxgl.Map({
+
+            container: 'map',
+            style: 'mapbox://styles/wild1k/ckbwlrt6r18mq1ho6214s9ip6',
+            center: [-122.04, 47.507],
+            zoom: 13,
+            attributionControl: false
+        });
+
+        //adding markers to city search
+        var marker = new mapboxgl.Marker()
             .setLngLat([mapCord.lon, mapCord.lat])
-           .addTo(map); // add the marker to the map
- 
- // Makes the map fly to the destination 
-// Makes the title the name of the country and city
+            .addTo(map); // add the marker to the map
+
+        // Makes the map fly to the destination 
+        // Makes the title the name of the country and city
         map.addControl(new mapboxgl.AttributionControl(), 'top-left');
         map.flyTo({ center: [mapCord.lon, mapCord.lat], essential: true });
         $(".card-title").text(`${cityName}, ${country}`)
@@ -89,7 +85,7 @@ function openWeatherGet(citySearch) {
         }).then(function (response) {
             createTab();
             $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow1"></div>')                    // Creates row for weather cards
-            for (i = 0; i < 5; i++) {                                                                           // gathering forecast data for five consecutive days
+            for (i = 0; i < 6; i++) {                                                                           // gathering forecast data for five consecutive days
                 var unixTimestamp = response.daily[i].dt                                                        // timestamp in unix
                 var unixDate = new Date(unixTimestamp * 1000);                                                  // getting date in unix
                 var convertedDate = moment(unixDate).format("MM/DD/YYYY");                                      // converting unix date to useable moment format
@@ -106,11 +102,11 @@ function openWeatherGet(citySearch) {
 
                 var sourceString = `images/${forecast.description}.png`
                 //html syntax of our forecast cards
-                if (i === 4) {
-                    var details = `<div class="col m2 s6 push-m1 push-s3">
+                if (i === 5) {
+                    var details = `<div class="col l2 m4 s6">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img src= ${sourceString  || "images/weather-placeholder.png"}>
+                                            <img src= ${sourceString || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
                                             <p>${dayOfWeek}</p>
@@ -121,10 +117,10 @@ function openWeatherGet(citySearch) {
                                     </div>`
                     forecast.card.append(details);
                 } else {
-                    var details = `<div class="col m2 s6 push-m1">
+                    var details = `<div class="col l2 m4 s6">
                                     <div class="card small">
                                         <div class="card-image">
-                                            <img class="weatherImg" src= ${sourceString  || "images/weather-placeholder.png"}>
+                                            <img class="weatherImg" src= ${sourceString || "images/weather-placeholder.png"}>
                                         </div>
                                         <div class="card-content">
                                             <p class="theBoldTitle">${dayOfWeek}</p>
@@ -137,8 +133,9 @@ function openWeatherGet(citySearch) {
                 }                                                                 //appending forecast details onto cards for five day forecast 
             };
         });
-    }).catch(function (error) {
-        alert("Sorry, we couldn't find that. Please enter a valid city.");
+    }).catch(function (error) {                                                    //Modal popup for incorrect city
+        $('#modal').modal();
+    $('#modal').modal('open'); 
         $(".textField").val("");
     });
 }
@@ -159,7 +156,7 @@ function zomatoGet(citySearch) {
             headers: { "user-key": key }
         }).then(function (response) {
             $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow2"></div>')
-            for (i = 0; i < 5; i++) {
+            for (i = 0; i < 6; i++) {
                 var restaurant = {
                     name: response.best_rated_restaurant[i].restaurant.name,
                     menu: response.best_rated_restaurant[i].restaurant.menu_url,
@@ -168,29 +165,29 @@ function zomatoGet(citySearch) {
                     card: $("#cardRow2")
                 };
                 console.log(restaurant.cuisine);
-                if (i === 4) {
-                    details = `<div class="col m2 s6 push-m1 push-s3">
-                <div class="card small">
+                if (i === 5) {
+                    details = `<div class="col l2 m4 s6">
+                <div class="card medium">
                         <div class="card-image">
                         <img src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
-                        <p class="theBoldTitle">${restaurant.name}</p>
-                        <p>${restaurant.cuisine}</p>
+                        <p class="limit-text theBoldTitle" rows="2">${restaurant.name}</p>
+                        <p class="limit-text" rows="2">${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
 
                     restaurant.card.append(details);
                 } else {
-                    details = `<div class="col m2 s6 push-m1">
-                <div class="card small">
+                    details = `<div class="col l2 m4 s6">
+                <div class="card medium">
                         <div class="card-image">
-                        <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail  || "images/restaurant-placeholder.png"}>
+                        <img class="restaurantImg" alt="restaurant thumbnail" src= ${restaurant.thumbnail || "images/restaurant-placeholder.png"}>
                         </div>
                         <div class="card-content">
-                        <p class="theBoldTitle">${restaurant.name}</p>
-                        <p>${restaurant.cuisine}</p>
+                        <p class="limit-text theBoldTitle" rows="2">${restaurant.name}</p>
+                        <p class="limit-text" rows="2">${restaurant.cuisine}</p>
                         <p><a href="${restaurant.menu}" target="_blank">See the menu!</a></p>
                         </div>
                         </div>`
@@ -204,6 +201,79 @@ function zomatoGet(citySearch) {
             $('ul.tabs').tabs();
         });
     });
+}
+function hotelsGet(citySearch) {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": `https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=${citySearch}`,
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "hotels4.p.rapidapi.com",
+            "x-rapidapi-key": "5e16a61383msh668a5a4f74ccadfp1a1e7ajsn0e72bb544572"
+        }
+    }
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+    }).then(function (response) {
+        $(".tabRow").append('<div class="row cardRow firstRow" id="cardRow3"></div>')
+        var cityID = response.suggestions[0].entities[0].destinationId
+        var startDateBox = `<div class="input-field col m12 s9 push-s3 red-text">
+                                <input class ="startInput" type="text" placeholder="YYYY-MM-DD"  id="autocomplete-input" class="autocomplete black-text">
+                            </div>`
+        var endDateBox = `<div class="input-field col m12 s9 push-s3 red-text">
+                            <input class ="endInput" type="text" placeholder="YYYY-MM-DD"  id="autocomplete-input" class="autocomplete black-text">
+                        </div>`
+        var dateSubmit = `<button class =dateBtn>Submit</button>`
+        $("#cardRow3").append(startDateBox, endDateBox, dateSubmit)
+        $(document).on("click", ".dateBtn", function () {
+            event.preventDefault();
+            var startInput = $(".startInput").val().trim();
+            var endInput = $(".endInput").val().trim();
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": `https://hotels4.p.rapidapi.com/properties/list?currency=USD&locale=en_US&sortOrder=BEST_SELLER&destinationId=${cityID}&pageNumber=1&checkIn=${startInput}&checkOut=${endInput}&pageSize=25&adults1=1`,
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "hotels4.p.rapidapi.com",
+                    "x-rapidapi-key": "5e16a61383msh668a5a4f74ccadfp1a1e7ajsn0e72bb544572"
+                }
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log("This is what you're looking for")
+                console.log(response.data.body.searchResults.results);
+             }).then(function (response) {
+                $("#cardRow3").empty()
+                for (i = 0; i < 6; i++) {
+                    var hotel = response.data.body.searchResults.results[i]
+                    var details = `<div class="col l2 m4 s6">
+                        <div class="card medium">
+                        <div class="card-image">
+                        <img class="hotelImg" alt="restaurant thumbnail" src= ${hotel.thumbnailUrl || "images/restaurant-placeholder.png"}>
+                        </div>
+                        <div class="card-content">
+                        <p class="theBoldTitle">${hotel.name}</p>
+                        <p>Rating: ${hotel.starRating}</p>
+                        <p>Address: ${hotel.address.streetAddress}</p>
+                        </div>
+                        </div>`
+                        $("#cardRow3").append(details)
+                }
+            })
+        });
+
+    })
+    // Then grab the city ID by search input
+    // Generate a date fields in the new tab
+    // Have the user set a checkIn checkOut date and the number of people
+    // On submit make another ajax call for properties/list using the three values
+    // return the top 6 results for hotels and present them as cards
+
+
+
 }
 function createNav() {                                                                                           // Creates the navbar
     var navBar = `<nav class="N/A transparent nav-wrapper">
