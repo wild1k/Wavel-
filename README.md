@@ -8,7 +8,6 @@ I WANT to see highly rated restaurants in that city
 I WANT to see hotels with rooms available during my travel window
 
 Check out our live app at https://wild1k.github.io/Wavel-/
-https://github.com/wild1k/Wavel-
 
 For this app, we sourced multiple APIs to meet these goals.
 We used openweathermap's API to grab coordinate data and to create a six day forecast.
